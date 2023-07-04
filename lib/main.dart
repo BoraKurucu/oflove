@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:oflove/screens/login_screen.dart';
 import 'package:oflove/screens/welcome_page.dart';
+import 'package:oflove/database/database_users.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+      // Replace with actual values
+      options: FirebaseOptions(
+    apiKey: "AIzaSyDdsaxlQ8wOmySNyXnnBsCfiwJtwzlMnzA",
+    appId: "1:644547860249:android:dc5b68093a492ca5305788",
+    messagingSenderId: "644547860249",
+    projectId: "oflove-fa0cb",
+  ));
   runApp(const MyApp());
 }
 

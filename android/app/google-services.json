@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "644547860249",
+    "firebase_url": "https://oflove-fa0cb-default-rtdb.firebaseio.com",
+    "project_id": "oflove-fa0cb",
+    "storage_bucket": "oflove-fa0cb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:644547860249:android:dc5b68093a492ca5305788",
+        "android_client_info": {
+          "package_name": "com.example.oflove"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "644547860249-7bak1n562214atfus782tt7ksmtc9dqd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.oflove",
+            "certificate_hash": "fd103a41ec16a8067d3cf4c32d21a45b2a478f3c"
+          }
+        },
+        {
+          "client_id": "644547860249-elrjtmcue9cb2f6p9ut2lipdrd6962ve.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdsaxlQ8wOmySNyXnnBsCfiwJtwzlMnzA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "644547860249-elrjtmcue9cb2f6p9ut2lipdrd6962ve.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

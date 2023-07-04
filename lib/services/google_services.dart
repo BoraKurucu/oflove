@@ -1,6 +1,9 @@
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:oflove/screens/welcome_page.dart';
+import 'package:oflove/database/database_users.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class GoogleSignInService {
   static final GoogleSignIn _googleSignIn = GoogleSignIn(
@@ -20,7 +23,8 @@ class GoogleSignInService {
           // Signed in successfully, handle the user account
           // You can access the user's basic profile information via `selectedAccount`
           // Perform your custom authentication logic here
-
+          //DatabaseUser.add(selectedAccount.email!); // Add user to Firestore
+          await DatabaseUser().addUser(selectedAccount.email!);
           Navigator.push(
             context,
             MaterialPageRoute(
