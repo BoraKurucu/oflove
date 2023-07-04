@@ -14,41 +14,28 @@ class GoogleSignInService {
 
   static Future<void> signInWithGoogle(BuildContext context) async {
     try {
-      final GoogleSignInAccount? googleAccount =
-          await _googleSignIn.signInSilently();
-      if (googleAccount == null) {
+      final GoogleSignInAccount? googleAccount = _googleSignIn.currentUser;
+
+      if (googleAccount == null || !await _googleSignIn.isSignedIn()) {
         final GoogleSignInAccount? selectedAccount =
             await _googleSignIn.signIn();
-        if (selectedAccount != null) {
-          // Signed in successfully, handle the user account
-          // You can access the user's basic profile information via `selectedAccount`
-          // Perform your custom authentication logic here
-          //DatabaseUser.add(selectedAccount.email!); // Add user to Firestore
-          await DatabaseUser().addUser(selectedAccount.email!);
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => WelcomePage(),
-            ),
-          );
-        } else {
-          // User canceled the sign-in flow
-          // Handle accordingly
-        }
-      } else {
-        // Already signed in with a Google account, handle the user account
-        // You can access the user's basic profile information via `googleAccount`
-        // Perform your custom authentication logic here
 
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => WelcomePage(),
-          ),
-        );
+        if (selectedAccount != null) {
+          await selectedAccount.authentication;
+
+          await DatabaseUser().addUser(selectedAccount.email!);
+        } else {
+          return; // User canceled the sign-in flow
+        }
       }
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => WelcomePage(),
+        ),
+      );
     } catch (error) {
-      // Handle the sign-in error
       print('Error signing in with Google: $error');
     }
   }

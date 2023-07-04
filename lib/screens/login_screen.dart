@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:oflove/services/google_services.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -54,8 +55,15 @@ class LoginScreen extends StatelessWidget {
                 ),
                 SizedBox(width: 16.0),
                 GestureDetector(
-                  onTap: () {
-                    // Implement your Apple login logic here
+                  onTap: () async {
+                    try {
+                      //sign in with apple is 30€/year, so not implemented until sponsorship
+                      // You can now use the credential to authenticate the user
+                      // Implement your authentication logic here
+                    } catch (error) {
+                      // Handle the sign-in error
+                      //print('Error signing in with Apple: $error');
+                    }
                   },
                   child: Padding(
                     padding: EdgeInsets.all(8.0),

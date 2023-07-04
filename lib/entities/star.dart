@@ -24,53 +24,50 @@ class Star {
   Widget buildStarCard(BuildContext context) {
     return Card(
       margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-      child: Row(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: 200,
-            height: 200,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(profileImage),
-                fit: BoxFit.cover,
+          Stack(
+            children: [
+              Container(
+                width: double.infinity,
+                height: 400,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(profileImage),
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
+            ],
+          ),
+          SizedBox(height: 16.0),
+          Text(
+            name,
+            style: TextStyle(
+              fontSize: 24.0,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(width: 16.0),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      name,
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    _buildStarRating(),
-                  ],
-                ),
-                SizedBox(height: 12.0),
-                _buildStatusIndicator(status),
-                SizedBox(height: 12.0),
-                _buildCostRow(Icons.message, messagingCost),
-                SizedBox(height: 8.0),
-                _buildCostRow(Icons.call, callCost),
-                SizedBox(height: 8.0),
-                _buildCostRow(Icons.video_call, videoCallCost),
-                SizedBox(height: 4.0),
-                Text(
-                  '($ratingCount Ratings)',
-                  style: TextStyle(fontSize: 16.0),
-                ),
-              ],
-            ),
+          SizedBox(height: 4.0),
+          Row(
+            children: [
+              _buildStarRating(),
+              SizedBox(width: 4.0),
+              Text(
+                '($ratingCount Reviews)',
+                style: TextStyle(fontSize: 16.0),
+              ),
+            ],
           ),
+          SizedBox(height: 12.0),
+          _buildStatusIndicator(status),
+          SizedBox(height: 12.0),
+          _buildCostRow(Icons.message, messagingCost),
+          SizedBox(height: 8.0),
+          _buildCostRow(Icons.call, callCost),
+          SizedBox(height: 8.0),
+          _buildCostRow(Icons.video_call, videoCallCost),
         ],
       ),
     );
