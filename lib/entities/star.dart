@@ -256,37 +256,37 @@ class StarData {
   ];
 }
 
-void main() {
-  runApp(MyApp());
-}
+// void main() {
+//   runApp(MyApp());
+// }
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Star Cards',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: StarListScreen(),
-    );
-  }
-}
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Star Cards',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       home: StarListScreen(),
+//     );
+//   }
+// }
 
-class StarListScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Star Cards'),
-      ),
-      body: ListView.builder(
-        itemCount: StarData.stars.length,
-        itemBuilder: (context, index) {
-          final star = StarData.stars[index];
-          return star.buildStarCard(context);
-        },
-      ),
-    );
-  }
-}
+// class StarListScreen extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Star Cards'),
+//       ),
+//       body: ListView.builder(
+//         itemCount: StarData.stars.length,
+//         itemBuilder: (context, index) {
+//           final star = StarData.stars[index];
+//           return star.buildStarCard(context);
+//         },
+//       ),
+//     );
+//   }
+// }
