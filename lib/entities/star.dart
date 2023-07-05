@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class Star {
   final String name;
-  final String profileImage;
+  final List<String> profileImages;
+  int currentImageIndex;
   final String status;
   final String messagingCost;
   final String callCost;
@@ -10,9 +11,10 @@ class Star {
   final int starRating;
   final int ratingCount;
 
-  const Star({
+  Star({
     required this.name,
-    required this.profileImage,
+    required this.profileImages,
+    this.currentImageIndex = 0,
     required this.status,
     required this.messagingCost,
     required this.callCost,
@@ -22,6 +24,41 @@ class Star {
   });
 
   Widget buildStarCard(BuildContext context) {
+    return StarCard(
+      star: this,
+    );
+  }
+}
+
+class StarCard extends StatefulWidget {
+  final Star star;
+
+  const StarCard({
+    required this.star,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  _StarCardState createState() => _StarCardState();
+}
+
+class _StarCardState extends State<StarCard> {
+  void _nextImage() {
+    setState(() {
+      widget.star.currentImageIndex = (widget.star.currentImageIndex + 1) %
+          widget.star.profileImages.length;
+    });
+  }
+
+  void _previousImage() {
+    setState(() {
+      widget.star.currentImageIndex = (widget.star.currentImageIndex - 1) %
+          widget.star.profileImages.length;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       child: Column(
@@ -29,21 +66,49 @@ class Star {
         children: [
           Stack(
             children: [
-              Container(
-                width: double.infinity,
-                height: 400,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(profileImage),
-                    fit: BoxFit.cover,
+              GestureDetector(
+                onTap: _nextImage,
+                child: Container(
+                  width: double.infinity,
+                  height: 400,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(
+                        widget
+                            .star.profileImages[widget.star.currentImageIndex],
+                      ),
+                      fit: BoxFit.cover,
+                    ),
                   ),
+                ),
+              ),
+              Positioned(
+                right: 16.0,
+                bottom: 16.0,
+                child: IconButton(
+                  icon: Icon(
+                    Icons.arrow_forward_rounded,
+                    color: Colors.white,
+                  ),
+                  onPressed: _nextImage,
+                ),
+              ),
+              Positioned(
+                left: 16.0,
+                bottom: 16.0,
+                child: IconButton(
+                  icon: Icon(
+                    Icons.arrow_back_rounded,
+                    color: Colors.white,
+                  ),
+                  onPressed: _previousImage,
                 ),
               ),
             ],
           ),
           SizedBox(height: 16.0),
           Text(
-            name,
+            widget.star.name,
             style: TextStyle(
               fontSize: 24.0,
               fontWeight: FontWeight.bold,
@@ -55,19 +120,19 @@ class Star {
               _buildStarRating(),
               SizedBox(width: 4.0),
               Text(
-                '($ratingCount Reviews)',
+                '(${widget.star.ratingCount} Reviews)',
                 style: TextStyle(fontSize: 16.0),
               ),
             ],
           ),
           SizedBox(height: 12.0),
-          _buildStatusIndicator(status),
+          _buildStatusIndicator(widget.star.status),
           SizedBox(height: 12.0),
-          _buildCostRow(Icons.message, messagingCost),
+          _buildCostRow(Icons.message_rounded, widget.star.messagingCost),
           SizedBox(height: 8.0),
-          _buildCostRow(Icons.call, callCost),
+          _buildCostRow(Icons.call_rounded, widget.star.callCost),
           SizedBox(height: 8.0),
-          _buildCostRow(Icons.video_call, videoCallCost),
+          _buildCostRow(Icons.video_call_rounded, widget.star.videoCallCost),
         ],
       ),
     );
@@ -124,6 +189,7 @@ class Star {
           Icon(
             icon,
             size: 24.0,
+            color: Colors.blue,
           ),
           SizedBox(width: 12.0),
           Text(
@@ -140,13 +206,13 @@ class Star {
     return Row(
       children: [
         Icon(
-          Icons.star,
+          Icons.star_rounded,
           color: Colors.yellow,
           size: 24.0,
         ),
         SizedBox(width: 4.0),
         Text(
-          starRating.toString(),
+          widget.star.starRating.toString(),
           style: TextStyle(fontSize: 16.0),
         ),
       ],
@@ -158,7 +224,7 @@ class StarData {
   static final List<Star> stars = [
     Star(
       name: 'Star 1',
-      profileImage: 'assets/star1.png',
+      profileImages: ['assets/star1.png', 'assets/star2.png'],
       status: 'Online',
       messagingCost: '\$5',
       callCost: '\$10',
@@ -168,7 +234,7 @@ class StarData {
     ),
     Star(
       name: 'Star 2',
-      profileImage: 'assets/star2.png',
+      profileImages: ['assets/star2.png'],
       status: 'Offline',
       messagingCost: '\$8',
       callCost: '\$12',
@@ -178,7 +244,7 @@ class StarData {
     ),
     Star(
       name: 'Star 3',
-      profileImage: 'assets/star3.png',
+      profileImages: ['assets/star3.png'],
       status: 'Busy',
       messagingCost: '\$7',
       callCost: '\$11',
@@ -188,4 +254,39 @@ class StarData {
     ),
     // Add more stars as needed
   ];
+}
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Star Cards',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: StarListScreen(),
+    );
+  }
+}
+
+class StarListScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Star Cards'),
+      ),
+      body: ListView.builder(
+        itemCount: StarData.stars.length,
+        itemBuilder: (context, index) {
+          final star = StarData.stars[index];
+          return star.buildStarCard(context);
+        },
+      ),
+    );
+  }
 }
