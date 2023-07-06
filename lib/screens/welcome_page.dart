@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'star_widget.dart';
-import '../entities/star.dart';
+import 'star_widget.dart';
 
 class WelcomePage extends StatelessWidget {
   final TextEditingController _searchController = TextEditingController();
@@ -95,20 +94,4 @@ class WelcomePage extends StatelessWidget {
   }
 }
 
-class StarListWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: StarData.stars.length,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 8.0,
-            horizontal: 16.0,
-          ),
-          child: StarData.stars[index].buildStarCard(context),
-        );
-      },
-    );
-  }
-}
+
