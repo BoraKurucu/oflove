@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import '../database/database_users.dart';
 
 class Star {
   final String name;
-  final List<String> profileImages;
+  final List<dynamic> profileImages;
   int currentImageIndex;
   final String status;
   final String messagingCost;
@@ -221,38 +222,69 @@ class _StarCardState extends State<StarCard> {
 }
 
 class StarData {
-  static final List<Star> stars = [
-    Star(
-      name: 'Star 1',
-      profileImages: ['assets/star1.png', 'assets/star2.png'],
-      status: 'Online',
-      messagingCost: '\$5',
-      callCost: '\$10',
-      videoCallCost: '\$15',
-      starRating: 3,
-      ratingCount: 192,
-    ),
-    Star(
-      name: 'Star 2',
-      profileImages: ['assets/star2.png'],
-      status: 'Offline',
-      messagingCost: '\$8',
-      callCost: '\$12',
-      videoCallCost: '\$18',
-      starRating: 5,
-      ratingCount: 1000,
-    ),
-    Star(
-      name: 'Star 3',
-      profileImages: ['assets/star3.png'],
-      status: 'Busy',
-      messagingCost: '\$7',
-      callCost: '\$11',
-      videoCallCost: '\$16',
-      starRating: 4,
-      ratingCount: 500,
-    ),
-    // Add more stars as needed
-  ];
+  List<Map<String, dynamic>> users = [];
+  //static List<Star> starsList = [];
+
+  Future<List<Star>> getData() async {
+    List<Star> starsList = [];
+    users = await DatabaseUser().getUser();
+    //deneme amaçlı print sonra sil
+    print(users[0]['name']);
+      // users.forEach((user) {
+      // print(user);
+      // });
+    for (int i = 0; i < users.length; i++)
+    {
+        starsList.add(Star(
+        name: users[i]['name'],
+        profileImages: users[i]['profileImages'],
+        status: users[i]['status'],
+        messagingCost: users[i]['messagingCost'],
+        callCost: users[i]['callCost'],
+        videoCallCost: users[i]['videoCallCost'],
+        starRating: users[i]['starRating'],
+        ratingCount: users[i]['ratingCount'],));
+    }
+
+      return starsList;
+
+  }
+  
+    // static final List<Star> stars = [
+    //   Star(
+    //     name: 'Star 1',
+    //     profileImages: ['assets/star1.png', 'assets/star2.png'],
+    //     status: 'Online',
+    //     messagingCost: '\$5',
+    //     callCost: '\$10',
+    //     videoCallCost: '\$15',
+    //     starRating: 3,
+    //     ratingCount: 192,
+    //   ),
+    //   Star(
+    //     name: 'Star 2',
+    //     profileImages: ['assets/star2.png'],
+    //     status: 'Offline',
+    //     messagingCost: '\$8',
+    //     callCost: '\$12',
+    //     videoCallCost: '\$18',
+    //     starRating: 5,
+    //     ratingCount: 1000,
+    //   ),
+    //   Star(
+    //     name: 'Star 3',
+    //     profileImages: ['assets/star3.png'],
+    //     status: 'Busy',
+    //     messagingCost: '\$7',
+    //     callCost: '\$11',
+    //     videoCallCost: '\$16',
+    //     starRating: 4,
+    //     ratingCount: 500,
+    //   ),
+    //   // Add more stars as needed
+    // ];
+    
+
+  
 }
 
