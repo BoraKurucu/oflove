@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:oflove/screens/upload_photos.dart';
 
 class AttractionScreen extends StatefulWidget {
   @override
@@ -12,12 +13,16 @@ class _AttractionScreenState extends State<AttractionScreen> {
     {'name': 'Female', 'icon': Icons.female},
   ];
 
+  void _navigateToUploadPhotos() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => UploadPhotosScreen()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Gender Screen'),
-      ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -85,24 +90,7 @@ class _AttractionScreenState extends State<AttractionScreen> {
                     SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: selectedGender != null
-                          ? () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text('Selected Gender'),
-                                    content:
-                                        Text('You selected $selectedGender.'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: Text('OK'),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            }
+                          ? _navigateToUploadPhotos
                           : null,
                       child: Text('Next'),
                     ),

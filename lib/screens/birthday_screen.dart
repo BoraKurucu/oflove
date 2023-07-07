@@ -77,9 +77,6 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Birthday Screen'),
-      ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(

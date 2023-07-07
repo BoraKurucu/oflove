@@ -12,9 +12,6 @@ class _NameScreenState extends State<NameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Name Screen'),
-      ),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(

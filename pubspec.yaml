@@ -41,6 +41,10 @@ dependencies:
   firebase_core: ^2.14.0
   sign_in_with_apple: ^5.0.0
   intl: ^0.18.1
+  image_picker: ^0.8.4+4
+  file_picker: ^4.1.4
+
+
 
 
 dev_dependencies:

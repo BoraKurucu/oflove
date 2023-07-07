@@ -7,16 +7,6 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            icon: Icon(Icons.person),
-            onPressed: () {
-              _showProfileOptions(context);
-            },
-          ),
-        ],
-      ),
       body: Stack(
         children: [
           Positioned.fill(
@@ -53,8 +43,6 @@ class WelcomePage extends StatelessWidget {
       ),
     );
   }
-
-  
 
   void _showProfileOptions(BuildContext context) {
     showDialog(
@@ -93,5 +81,3 @@ class WelcomePage extends StatelessWidget {
     );
   }
 }
-
-
