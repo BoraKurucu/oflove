@@ -13,8 +13,8 @@ class DatabaseUser {
         .catchError((error) => print("Failed to add user: $error"));
   }
 
-  //getUser
-  Future<List<Map<String, dynamic>>> getUser() async {
+  //getUsers
+  Future<List<Map<String, dynamic>>> getUsers() async {
     List<Map<String, dynamic>> users = [];
 
       QuerySnapshot snapshot =

@@ -11,6 +11,9 @@ class Star {
   final String videoCallCost;
   final int starRating;
   final int ratingCount;
+  final String attraction;
+  final String gender;
+  final int age;
 
   Star({
     required this.name,
@@ -22,6 +25,9 @@ class Star {
     required this.videoCallCost,
     required this.starRating,
     required this.ratingCount,
+    required this.attraction,
+    required this.gender,
+    required this.age,
   });
 
   Widget buildStarCard(BuildContext context) {
@@ -227,7 +233,7 @@ class StarData {
 
   Future<List<Star>> getData() async {
     List<Star> starsList = [];
-    users = await DatabaseUser().getUser();
+    users = await DatabaseUser().getUsers();
     //deneme amaçlı print sonra sil
     print(users[0]['name']);
       // users.forEach((user) {
@@ -243,48 +249,15 @@ class StarData {
         callCost: users[i]['callCost'],
         videoCallCost: users[i]['videoCallCost'],
         starRating: users[i]['starRating'],
-        ratingCount: users[i]['ratingCount'],));
+        ratingCount: users[i]['ratingCount'],
+        attraction: users[i]['attraction'],
+        gender: users[i]['gender'],
+        age: users[i]['age'],));
     }
 
       return starsList;
 
   }
-  
-    // static final List<Star> stars = [
-    //   Star(
-    //     name: 'Star 1',
-    //     profileImages: ['assets/star1.png', 'assets/star2.png'],
-    //     status: 'Online',
-    //     messagingCost: '\$5',
-    //     callCost: '\$10',
-    //     videoCallCost: '\$15',
-    //     starRating: 3,
-    //     ratingCount: 192,
-    //   ),
-    //   Star(
-    //     name: 'Star 2',
-    //     profileImages: ['assets/star2.png'],
-    //     status: 'Offline',
-    //     messagingCost: '\$8',
-    //     callCost: '\$12',
-    //     videoCallCost: '\$18',
-    //     starRating: 5,
-    //     ratingCount: 1000,
-    //   ),
-    //   Star(
-    //     name: 'Star 3',
-    //     profileImages: ['assets/star3.png'],
-    //     status: 'Busy',
-    //     messagingCost: '\$7',
-    //     callCost: '\$11',
-    //     videoCallCost: '\$16',
-    //     starRating: 4,
-    //     ratingCount: 500,
-    //   ),
-    //   // Add more stars as needed
-    // ];
-    
 
-  
 }
 
