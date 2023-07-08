@@ -1,15 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:typed_data';
-import 'package:oflove/screens/welcome_page.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UploadPhotosScreen extends StatefulWidget {
+  DateTime? birthday = DateTime(1900);
+  String? name = "empty";
+  String? gender = "none";
+  String? attraction_gender = "none";
+  String? uid = "";
+  String? email = "";
+
+  UploadPhotosScreen({
+    required this.uid,
+    required this.email,
+    required this.birthday,
+    required this.name,
+    required this.gender,
+    required this.attraction_gender,
+  });
+
   @override
   _UploadPhotosScreenState createState() => _UploadPhotosScreenState();
 }
 
 class _UploadPhotosScreenState extends State<UploadPhotosScreen> {
   List<PlatformFile> selectedImages = [];
+  List<String> profileImages = []; // Added profileImages list
   int currentIndex = 0;
 
   Future<void> _pickImages() async {
@@ -21,8 +40,7 @@ class _UploadPhotosScreenState extends State<UploadPhotosScreen> {
     if (result != null) {
       setState(() {
         selectedImages.addAll(result.files);
-        currentIndex =
-            selectedImages.length - 1; // Set current index to the last image
+        currentIndex = selectedImages.length - 1;
       });
     }
   }
@@ -30,28 +48,56 @@ class _UploadPhotosScreenState extends State<UploadPhotosScreen> {
   Future<void> _uploadImages() async {
     if (selectedImages.isNotEmpty) {
       for (final image in selectedImages) {
-        final Uint8List? bytes = image.bytes;
+        String fileName = DateTime.now().millisecondsSinceEpoch.toString();
 
-        if (bytes != null) {
-          // Perform action to upload bytes to your desired destination.
-          // Example: uploadBytesToServer(bytes);
+        try {
+          firebase_storage.Reference storageReference = firebase_storage
+              .FirebaseStorage.instance
+              .ref()
+              .child('$widget.uid/$fileName.jpg');
+
+          await storageReference.putData(image.bytes!);
+
+          // Add the uploaded image name to the profileImages array
+          String imageName = '$widget.uid/$fileName.jpg';
+          profileImages.add(imageName);
+
+          // Create a new user document in Firestore
+          await FirebaseFirestore.instance.collection('users').add({
+            'uid': widget.uid,
+            'email': widget.email,
+            'birthday': widget.birthday,
+            'name': widget.name,
+            'gender': widget.gender,
+            'attraction_gender': widget.attraction_gender,
+            'profileImages': profileImages,
+            'messagingcost': 0,
+            'callcost': 0,
+            'videocost': 0,
+            'rating': 0,
+            'ratingcount': 0,
+            'status': '',
+          });
+
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Upload Complete'),
+                content: Text('The photos have been uploaded successfully.'),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text('OK'),
+                  ),
+                ],
+              );
+            },
+          );
+        } catch (e) {
+          print('Error uploading image: $e');
         }
       }
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Upload Complete'),
-            content: Text('So hot! The photos are uploaded ;)'),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
     }
   }
 
@@ -71,18 +117,15 @@ class _UploadPhotosScreenState extends State<UploadPhotosScreen> {
     setState(() {
       selectedImages.removeAt(currentIndex);
       if (selectedImages.isEmpty) {
-        currentIndex = 0; // Set current index to 0 if all images are removed
+        currentIndex = 0;
       } else if (currentIndex >= selectedImages.length) {
-        currentIndex--; // Adjust current index if the last image is removed
+        currentIndex--;
       }
     });
   }
 
   void _continueWithoutPhotos() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => WelcomePage()),
-    );
+    Navigator.pop(context);
   }
 
   @override

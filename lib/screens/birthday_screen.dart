@@ -3,22 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:oflove/screens/name_screen.dart';
 import 'package:intl/intl.dart';
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Birthday Screen',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: BirthdayScreen(),
-    );
-  }
-}
-
 class BirthdayScreen extends StatefulWidget {
+  String? uid = "";
+  String? email = "";
+  BirthdayScreen({required this.uid, required this.email});
   @override
   _BirthdayScreenState createState() => _BirthdayScreenState();
 }
@@ -60,7 +48,10 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => NameScreen(),
+                        builder: (context) => NameScreen(
+                            uid: widget.uid,
+                            email: widget.email,
+                            birthday: selectedDate),
                       ),
                     );
                   }

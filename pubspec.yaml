@@ -43,6 +43,7 @@ dependencies:
   intl: ^0.18.1
   image_picker: ^0.8.4+4
   file_picker: ^4.1.4
+  firebase_storage: ^11.2.4
 
 
 

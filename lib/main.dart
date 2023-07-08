@@ -17,6 +17,7 @@ void main() async {
     appId: "1:644547860249:android:dc5b68093a492ca5305788",
     messagingSenderId: "644547860249",
     projectId: "oflove-fa0cb",
+    storageBucket: "oflove-fa0cb.appspot.com",
   ));
   runApp(const MyApp());
 }
@@ -48,7 +49,10 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: UploadPhotosScreen(),
+      home: BirthdayScreen(
+        uid: "asdasdasd",
+        email: "nbr@mail.com",
+      ),
     );
   }
 }

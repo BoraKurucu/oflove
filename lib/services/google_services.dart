@@ -1,9 +1,9 @@
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:oflove/screens/welcome_page.dart';
-import 'package:oflove/database/database_users.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:oflove/screens/birthday_screen.dart';
+import 'package:oflove/screens/welcome_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:oflove/database/database_users.dart';
 
 class GoogleSignInService {
   static final GoogleSignIn _googleSignIn = GoogleSignIn(
@@ -23,18 +23,35 @@ class GoogleSignInService {
         if (selectedAccount != null) {
           await selectedAccount.authentication;
 
-          await DatabaseUser().addUser(selectedAccount.email!);
+          String userId = selectedAccount.id;
+          bool userExists = await DatabaseUser().checkUserExists(userId);
+
+          if (!userExists) {
+            // User does not exist in the database
+            // Perform actions for first-time sign-in
+            // For example, navigate to the BirthdayScreen
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    BirthdayScreen(uid: userId, email: selectedAccount.email),
+              ),
+            );
+          } else {
+            // User already exists in the database
+            // Perform actions for returning users
+            // For example, navigate to the WelcomePage
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => WelcomePage(),
+              ),
+            );
+          }
         } else {
           return; // User canceled the sign-in flow
         }
       }
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => WelcomePage(),
-        ),
-      );
     } catch (error) {
       print('Error signing in with Google: $error');
     }

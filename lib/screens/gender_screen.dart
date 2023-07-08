@@ -2,6 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:oflove/screens/attraction_screen.dart';
 
 class GenderScreen extends StatefulWidget {
+  DateTime? birthday = DateTime(1900);
+  String? name = "empty";
+  String? uid = "";
+  String? email = "";
+  GenderScreen(
+      {required this.uid,
+      required this.email,
+      this.birthday,
+      required this.name});
+
   @override
   _GenderScreenState createState() => _GenderScreenState();
 }
@@ -36,7 +46,7 @@ class _GenderScreenState extends State<GenderScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'You are over 18! Now let me know your gender!',
+                      'Amazing name! Now let me know your gender!',
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
@@ -87,7 +97,12 @@ class _GenderScreenState extends State<GenderScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => AttractionScreen(),
+                                  builder: (context) => AttractionScreen(
+                                      uid: widget.uid,
+                                      email: widget.email,
+                                      birthday: widget.birthday,
+                                      name: widget.name,
+                                      gender: selectedGender),
                                 ),
                               );
                             }

@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:oflove/screens/gender_screen.dart';
 
 class NameScreen extends StatefulWidget {
+  DateTime? birthday = DateTime(1900);
+  String? uid = "";
+  String? email = "";
+  NameScreen({
+    required this.uid,
+    required this.email,
+    required this.birthday,
+  });
   @override
   _NameScreenState createState() => _NameScreenState();
 }
@@ -58,7 +66,11 @@ class _NameScreenState extends State<NameScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => GenderScreen(),
+                              builder: (context) => GenderScreen(
+                                  uid: widget.uid,
+                                  email: widget.email,
+                                  birthday: widget.birthday,
+                                  name: name),
                             ),
                           );
                         }

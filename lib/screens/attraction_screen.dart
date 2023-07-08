@@ -2,6 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:oflove/screens/upload_photos.dart';
 
 class AttractionScreen extends StatefulWidget {
+  DateTime? birthday = DateTime(1900);
+  String? name = "empty";
+  String? gender = "none";
+  String? uid = "";
+  String? email = "";
+  AttractionScreen(
+      {required this.uid,
+      required this.email,
+      this.birthday,
+      required this.name,
+      required this.gender});
   @override
   _AttractionScreenState createState() => _AttractionScreenState();
 }
@@ -16,7 +27,14 @@ class _AttractionScreenState extends State<AttractionScreen> {
   void _navigateToUploadPhotos() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => UploadPhotosScreen()),
+      MaterialPageRoute(
+          builder: (context) => UploadPhotosScreen(
+              uid: widget.uid,
+              email: widget.email,
+              birthday: widget.birthday,
+              name: widget.name,
+              gender: widget.gender,
+              attraction_gender: selectedGender)),
     );
   }
 

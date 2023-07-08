@@ -17,19 +17,29 @@ class DatabaseUser {
   Future<List<Map<String, dynamic>>> getUser() async {
     List<Map<String, dynamic>> users = [];
 
-      QuerySnapshot snapshot =
-          await FirebaseFirestore.instance.collection('users').get();
-      snapshot.docs.forEach((doc) {
-        if (doc.data() != null) {
-          users.add(doc.data() as Map<String, dynamic>);
-        }
-      });
+    QuerySnapshot snapshot =
+        await FirebaseFirestore.instance.collection('users').get();
+    snapshot.docs.forEach((doc) {
+      if (doc.data() != null) {
+        users.add(doc.data() as Map<String, dynamic>);
+      }
+    });
 
     // // Print the users array
     //   users.forEach((user) {
     //     print(user);
     //   });
     return users;
+  }
 
+  Future<bool> checkUserExists(String userId) async {
+    try {
+      final DocumentSnapshot snapshot = await users.doc(userId).get();
+
+      return snapshot.exists;
+    } catch (error) {
+      print('Error checking user existence: $error');
+      return false;
+    }
   }
 }
