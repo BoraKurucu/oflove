@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:oflove/screens/welcome_page.dart';
 
 class UploadPhotosScreen extends StatefulWidget {
   DateTime? birthday = DateTime(1900);
@@ -28,7 +29,7 @@ class UploadPhotosScreen extends StatefulWidget {
 
 class _UploadPhotosScreenState extends State<UploadPhotosScreen> {
   List<PlatformFile> selectedImages = [];
-  List<String> profileImages = []; // Added profileImages list
+  List<dynamic> profileImages = []; // Added profileImages list
   int currentIndex = 0;
 
   Future<void> _pickImages() async {
@@ -54,29 +55,32 @@ class _UploadPhotosScreenState extends State<UploadPhotosScreen> {
           firebase_storage.Reference storageReference = firebase_storage
               .FirebaseStorage.instance
               .ref()
-              .child('$widget.uid/$fileName.jpg');
+              .child('$fileName.jpg');
 
           await storageReference.putData(image.bytes!);
 
           // Add the uploaded image name to the profileImages array
-          String imageName = '$widget.uid/$fileName.jpg';
+          String imageName = '$fileName.jpg';
           profileImages.add(imageName);
+
+          // Convert DateTime to Timestamp
 
           // Create a new user document in Firestore
           await FirebaseFirestore.instance.collection('users').add({
             'uid': widget.uid,
             'email': widget.email,
-            'birthday': widget.birthday,
+            'birthday':
+                widget.birthday.toString(), // Assign the converted Timestamp
             'name': widget.name,
             'gender': widget.gender,
             'attraction_gender': widget.attraction_gender,
-            'profileImages': profileImages,
-            'messagingcost': 0,
-            'callcost': 0,
-            'videocost': 0,
-            'rating': 0,
-            'ratingcount': 0,
-            'status': '',
+            'profileImages': List<String>.from(profileImages),
+            'messagingcost': "0",
+            'callcost': "0",
+            'videocost': "0",
+            'rating': "0",
+            'ratingcount': "0",
+            'status': 'Offline',
           });
 
           showDialog(
@@ -94,6 +98,7 @@ class _UploadPhotosScreenState extends State<UploadPhotosScreen> {
               );
             },
           );
+          _continueWithoutPhotos();
         } catch (e) {
           print('Error uploading image: $e');
         }
@@ -125,7 +130,12 @@ class _UploadPhotosScreenState extends State<UploadPhotosScreen> {
   }
 
   void _continueWithoutPhotos() {
-    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => WelcomePage(),
+      ),
+    );
   }
 
   @override

@@ -1,33 +1,38 @@
 import 'package:flutter/material.dart';
-import '../database/database_users.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:oflove/database/database_users.dart';
 
 class Star {
-  final String name;
-  final List<dynamic> profileImages;
+  String attraction_gender;
+  String birthday;
+  String callcost;
   int currentImageIndex;
-  final String status;
-  final String messagingCost;
-  final String callCost;
-  final String videoCallCost;
-  final int starRating;
-  final int ratingCount;
-  final String attraction;
-  final String gender;
-  final int age;
+  String email;
+  String gender;
+  String messagingcost;
+  String name;
+  List<dynamic> profileImages = [];
+  String rating;
+  String ratingcount;
+  String status;
+  String uid;
+  String videocost;
 
   Star({
+    required this.attraction_gender,
+    required this.birthday,
+    required this.callcost,
+    this.currentImageIndex = 0,
+    required this.email,
+    required this.gender,
+    required this.messagingcost,
     required this.name,
     required this.profileImages,
-    this.currentImageIndex = 0,
+    required this.rating,
+    required this.ratingcount,
     required this.status,
-    required this.messagingCost,
-    required this.callCost,
-    required this.videoCallCost,
-    required this.starRating,
-    required this.ratingCount,
-    required this.attraction,
-    required this.gender,
-    required this.age,
+    required this.uid,
+    required this.videocost,
   });
 
   Widget buildStarCard(BuildContext context) {
@@ -66,81 +71,92 @@ class _StarCardState extends State<StarCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
+    return SizedBox(
+      width: double.infinity,
+      height: 380,
+      child: Card(
+        margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+        child: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              GestureDetector(
-                onTap: _nextImage,
-                child: Container(
-                  width: double.infinity,
-                  height: 400,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(
-                        widget
-                            .star.profileImages[widget.star.currentImageIndex],
+              FutureBuilder<String?>(
+                future: DatabaseUser().getImageUrl(
+                    widget.star.profileImages[widget.star.currentImageIndex]),
+                builder:
+                    (BuildContext context, AsyncSnapshot<String?> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    final imageUrl = snapshot.data;
+                    if (imageUrl == null) {
+                      return Text('Image not found');
+                    }
+                    return Container(
+                      height: 250.0,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
                       ),
-                      fit: BoxFit.cover,
-                    ),
+                      child: Image.network(
+                        imageUrl,
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  }
+                },
+              ),
+              Container(
+                width: double.infinity,
+                height: 1.0,
+                color: Colors.grey,
+              ),
+              Row(children: [
+                SizedBox(height: 16.0),
+                Text(
+                  widget.star.name,
+                  style: TextStyle(
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
+                SizedBox(width: 12.0),
+                _buildStatusIndicator(widget.star.status),
+              ]),
+              Container(
+                width: double.infinity,
+                height: 1.0,
+                color: Colors.grey,
               ),
-              Positioned(
-                right: 16.0,
-                bottom: 16.0,
-                child: IconButton(
-                  icon: Icon(
-                    Icons.arrow_forward_rounded,
-                    color: Colors.white,
+              SizedBox(height: 4.0),
+              Row(
+                children: [
+                  _buildStarRating(),
+                  SizedBox(width: 4.0),
+                  Text(
+                    '(${widget.star.ratingcount} Reviews)',
+                    style: TextStyle(fontSize: 24.0),
                   ),
-                  onPressed: _nextImage,
-                ),
+                ],
               ),
-              Positioned(
-                left: 16.0,
-                bottom: 16.0,
-                child: IconButton(
-                  icon: Icon(
-                    Icons.arrow_back_rounded,
-                    color: Colors.white,
-                  ),
-                  onPressed: _previousImage,
-                ),
+              Container(
+                width: double.infinity,
+                height: 1.0,
+                color: Colors.grey,
               ),
+              Row(children: [
+                SizedBox(height: 12.0),
+                _buildCostRow(Icons.message_rounded, widget.star.messagingcost),
+                SizedBox(height: 8.0),
+                _buildCostRow(Icons.call_rounded, widget.star.callcost),
+                SizedBox(height: 8.0),
+                _buildCostRow(Icons.video_call_rounded, widget.star.videocost),
+              ]),
             ],
           ),
-          SizedBox(height: 16.0),
-          Text(
-            widget.star.name,
-            style: TextStyle(
-              fontSize: 24.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(height: 4.0),
-          Row(
-            children: [
-              _buildStarRating(),
-              SizedBox(width: 4.0),
-              Text(
-                '(${widget.star.ratingCount} Reviews)',
-                style: TextStyle(fontSize: 16.0),
-              ),
-            ],
-          ),
-          SizedBox(height: 12.0),
-          _buildStatusIndicator(widget.star.status),
-          SizedBox(height: 12.0),
-          _buildCostRow(Icons.message_rounded, widget.star.messagingCost),
-          SizedBox(height: 8.0),
-          _buildCostRow(Icons.call_rounded, widget.star.callCost),
-          SizedBox(height: 8.0),
-          _buildCostRow(Icons.video_call_rounded, widget.star.videoCallCost),
-        ],
+        ),
       ),
     );
   }
@@ -151,7 +167,7 @@ class _StarCardState extends State<StarCard> {
     switch (status) {
       case 'Online':
         indicatorColor = Colors.green;
-        statusText = 'Online';
+        statusText = 'Talk Now!';
         break;
       case 'Offline':
         indicatorColor = Colors.grey;
@@ -159,7 +175,7 @@ class _StarCardState extends State<StarCard> {
         break;
       case 'Busy':
         indicatorColor = Colors.red;
-        statusText = 'Busy';
+        statusText = 'Talking Someone';
         break;
       default:
         indicatorColor = Colors.transparent;
@@ -178,7 +194,7 @@ class _StarCardState extends State<StarCard> {
         SizedBox(width: 4.0),
         Text(
           statusText,
-          style: TextStyle(fontSize: 16.0),
+          style: TextStyle(fontSize: 24.0),
         ),
       ],
     );
@@ -186,11 +202,7 @@ class _StarCardState extends State<StarCard> {
 
   Widget _buildCostRow(IconData icon, String cost) {
     return Container(
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(color: Colors.grey, width: 1.0),
-        ),
-      ),
+      decoration: BoxDecoration(),
       child: Row(
         children: [
           Icon(
@@ -215,12 +227,12 @@ class _StarCardState extends State<StarCard> {
         Icon(
           Icons.star_rounded,
           color: Colors.yellow,
-          size: 24.0,
+          size: 32.0,
         ),
         SizedBox(width: 4.0),
         Text(
-          widget.star.starRating.toString(),
-          style: TextStyle(fontSize: 16.0),
+          widget.star.rating.toString(),
+          style: TextStyle(fontSize: 24.0),
         ),
       ],
     );
@@ -229,35 +241,31 @@ class _StarCardState extends State<StarCard> {
 
 class StarData {
   List<Map<String, dynamic>> users = [];
-  //static List<Star> starsList = [];
 
   Future<List<Star>> getData() async {
     List<Star> starsList = [];
     users = await DatabaseUser().getUsers();
-    //deneme amaçlı print sonra sil
-    print(users[0]['name']);
-      // users.forEach((user) {
-      // print(user);
-      // });
-    for (int i = 0; i < users.length; i++)
-    {
-        starsList.add(Star(
-        name: users[i]['name'],
-        profileImages: users[i]['profileImages'],
-        status: users[i]['status'],
-        messagingCost: users[i]['messagingCost'],
-        callCost: users[i]['callCost'],
-        videoCallCost: users[i]['videoCallCost'],
-        starRating: users[i]['starRating'],
-        ratingCount: users[i]['ratingCount'],
-        attraction: users[i]['attraction'],
-        gender: users[i]['gender'],
-        age: users[i]['age'],));
+
+    for (int i = 0; i < users.length; i++) {
+      starsList.add(
+        Star(
+          currentImageIndex: 0,
+          profileImages: users[i]['profileImages'],
+          attraction_gender: users[i]['attraction_gender'],
+          birthday: users[i]['birthday'],
+          callcost: users[i]['callcost'],
+          email: users[i]['email'],
+          gender: users[i]['gender'],
+          messagingcost: users[i]['messagingcost'],
+          name: users[i]['name'],
+          ratingcount: users[i]['ratingcount'],
+          status: users[i]['status'],
+          uid: users[i]['uid'],
+          videocost: users[i]['videocost'],
+          rating: users[i]['rating'],
+        ),
+      );
     }
-
-      return starsList;
-
+    return starsList;
   }
-
 }
-
