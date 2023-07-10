@@ -55,54 +55,55 @@ class _UploadPhotosScreenState extends State<UploadPhotosScreen> {
           firebase_storage.Reference storageReference = firebase_storage
               .FirebaseStorage.instance
               .ref()
-              .child('$fileName.jpg');
+              .child('${uidFolder}/$fileName.jpg');
 
           await storageReference.putData(image.bytes!);
 
           // Add the uploaded image name to the profileImages array
-          String imageName = '$fileName.jpg';
+          String imageName = '${uidFolder}/$fileName.jpg';
           profileImages.add(imageName);
 
           // Convert DateTime to Timestamp
-
-          // Create a new user document in Firestore
-          await FirebaseFirestore.instance.collection('users').add({
-            'uid': widget.uid,
-            'email': widget.email,
-            'birthday':
-                widget.birthday.toString(), // Assign the converted Timestamp
-            'name': widget.name,
-            'gender': widget.gender,
-            'attraction_gender': widget.attraction_gender,
-            'profileImages': List<String>.from(profileImages),
-            'messagingcost': "0",
-            'callcost': "0",
-            'videocost': "0",
-            'rating': "0",
-            'ratingcount': "0",
-            'status': 'Offline',
-          });
-
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text('Upload Complete'),
-                content: Text('The photos have been uploaded successfully.'),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text('OK'),
-                  ),
-                ],
-              );
-            },
-          );
-          _continueWithoutPhotos();
         } catch (e) {
           print('Error uploading image: $e');
         }
       }
+
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Upload Complete'),
+            content: Text('The photos have been uploaded successfully.'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+
+      // Create a new user document in Firestore
+      await FirebaseFirestore.instance.collection('users').add({
+        'uid': widget.uid,
+        'email': widget.email,
+        'birthday':
+            widget.birthday.toString(), // Assign the converted Timestamp
+        'name': widget.name,
+        'gender': widget.gender,
+        'attraction_gender': widget.attraction_gender,
+        'profileImages': List<String>.from(profileImages),
+        'messagingcost': "0",
+        'callcost': "0",
+        'videocost': "0",
+        'rating': "0",
+        'ratingcount': "0",
+        'status': 'Offline',
+      });
+
+      finishPage();
     }
   }
 
@@ -129,7 +130,7 @@ class _UploadPhotosScreenState extends State<UploadPhotosScreen> {
     });
   }
 
-  void _continueWithoutPhotos() {
+  void finishPage() {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -137,6 +138,8 @@ class _UploadPhotosScreenState extends State<UploadPhotosScreen> {
       ),
     );
   }
+
+  String get uidFolder => 'users/${widget.uid}';
 
   @override
   Widget build(BuildContext context) {
@@ -237,7 +240,7 @@ class _UploadPhotosScreenState extends State<UploadPhotosScreen> {
                     ),
                   SizedBox(height: 20),
                   GestureDetector(
-                    onTap: _continueWithoutPhotos,
+                    onTap: finishPage,
                     child: Text(
                       'Continue without photos',
                       style: TextStyle(

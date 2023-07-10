@@ -73,7 +73,7 @@ class _StarCardState extends State<StarCard> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 380,
+      height: 488,
       child: Card(
         margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         child: Container(
@@ -95,14 +95,47 @@ class _StarCardState extends State<StarCard> {
                       return Text('Image not found');
                     }
                     return Container(
-                      height: 250.0,
-                      width: double.infinity,
+                      height: 360.0,
+                      width: 480.0,
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey),
                       ),
-                      child: Image.network(
-                        imageUrl,
-                        fit: BoxFit.cover,
+// Inside the Container that wraps the profile image
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Image.network(
+                            height: 360.0,
+                            width: 480.0,
+                            imageUrl,
+                            fit: BoxFit.cover,
+                          ),
+                          Positioned(
+                            bottom: 16.0,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: _previousImage,
+                                  child: Icon(
+                                    Icons.arrow_back_ios_rounded,
+                                    color: Colors.white,
+                                    size: 32.0,
+                                  ),
+                                ),
+                                SizedBox(width: 16.0),
+                                GestureDetector(
+                                  onTap: _nextImage,
+                                  child: Icon(
+                                    Icons.arrow_forward_ios_rounded,
+                                    color: Colors.white,
+                                    size: 32.0,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     );
                   }
@@ -122,7 +155,7 @@ class _StarCardState extends State<StarCard> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(width: 12.0),
+                SizedBox(width: 48.0),
                 _buildStatusIndicator(widget.star.status),
               ]),
               Container(

@@ -49,13 +49,13 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      /*
+
       home: BirthdayScreen(
-        uid: "test_id",
+        uid: "test_id4",
         email: "test@mail.com",
       ),
-    */
-      home: WelcomePage(),
+
+      //home: WelcomePage(),
     );
   }
 }
