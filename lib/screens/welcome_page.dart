@@ -19,19 +19,50 @@ class WelcomePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: TextField(
-                  controller: _searchController,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.search, color: Colors.white),
-                    hintText: 'Search Stars...',
-                    hintStyle: TextStyle(color: Colors.white54),
-                    border: OutlineInputBorder(),
-                  ),
+                padding: const EdgeInsets.fromLTRB(32.0, 16.0, 32.0, 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        padding: EdgeInsets.fromLTRB(32, 0, 0, 0),
+                        child: TextField(
+                          controller: _searchController,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                          decoration: InputDecoration(
+                            hintText: 'Search Stars...',
+                            hintStyle: TextStyle(color: Colors.grey[300]),
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 16),
+                    GestureDetector(
+                      onTap: () {
+                        _openProfile(context);
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey[500],
+                          shape: BoxShape.circle,
+                        ),
+                        padding: EdgeInsets.all(8),
+                        child: Icon(
+                          Icons.account_circle,
+                          color: Colors.white,
+                          size: 28,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Expanded(
@@ -44,40 +75,44 @@ class WelcomePage extends StatelessWidget {
     );
   }
 
-  void _showProfileOptions(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Profile Options'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                leading: Icon(Icons.person),
-                title: Text('Manage Profile'),
-                onTap: () {
-                  // Implement the logic for managing the profile
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.payment),
-                title: Text('Manage Payments'),
-                onTap: () {
-                  // Implement the logic for managing payments
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.logout),
-                title: Text('Log Out'),
-                onTap: () {
-                  // Implement the logic for logging out
-                },
-              ),
-            ],
-          ),
-        );
-      },
+  void _openProfile(BuildContext context) {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        transitionsBuilder: (
+          BuildContext context,
+          Animation<double> animation,
+          Animation<double> secondaryAnimation,
+          Widget child,
+        ) {
+          return SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1.0, 0.0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          );
+        },
+        pageBuilder: (BuildContext context, Animation<double> animation,
+            Animation<double> secondaryAnimation) {
+          // Replace this with the widget representing the profile page
+          return ProfilePage();
+        },
+      ),
+    );
+  }
+}
+
+class ProfilePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Profile'),
+      ),
+      body: Center(
+        child: Text('Profile Page'),
+      ),
     );
   }
 }
