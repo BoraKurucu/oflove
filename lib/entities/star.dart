@@ -271,34 +271,3 @@ class _StarCardState extends State<StarCard> {
     );
   }
 }
-
-class StarData {
-  List<Map<String, dynamic>> users = [];
-
-  Future<List<Star>> getData() async {
-    List<Star> starsList = [];
-    users = await DatabaseUser().getUsers();
-
-    for (int i = 0; i < users.length; i++) {
-      starsList.add(
-        Star(
-          currentImageIndex: 0,
-          profileImages: users[i]['profileImages'],
-          attraction_gender: users[i]['attraction_gender'],
-          birthday: users[i]['birthday'],
-          callcost: users[i]['callcost'],
-          email: users[i]['email'],
-          gender: users[i]['gender'],
-          messagingcost: users[i]['messagingcost'],
-          name: users[i]['name'],
-          ratingcount: users[i]['ratingcount'],
-          status: users[i]['status'],
-          uid: users[i]['uid'],
-          videocost: users[i]['videocost'],
-          rating: users[i]['rating'],
-        ),
-      );
-    }
-    return starsList;
-  }
-}

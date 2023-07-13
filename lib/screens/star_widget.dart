@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../entities/star.dart';
+import 'package:oflove/database/database_users.dart';
 
 class StarListWidget extends StatefulWidget {
   @override
@@ -16,8 +17,7 @@ class _StarListWidgetState extends State<StarListWidget> {
   }
 
   Future<void> fetchData() async {
-    StarData stars = StarData();
-    List<Star> data = await stars.getData();
+    List<Star> data = await DatabaseUser().getData();
     setState(() {
       starsList = data;
     });

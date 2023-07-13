@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
       ),
 
       home: BirthdayScreen(
-        uid: "test_id4",
+        uid: "test_id6",
         email: "test@mail.com",
       ),
 

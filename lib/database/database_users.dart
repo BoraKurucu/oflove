@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:oflove/entities/star.dart';
 
 class DatabaseUser {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
@@ -31,6 +32,35 @@ class DatabaseUser {
     //     print(user);
     //   });
     return users;
+  }
+
+  Future<List<Star>> getData() async {
+    List<Star> starsList = [];
+    List<Map<String, dynamic>> users = [];
+
+    users = await getUsers();
+
+    for (int i = 0; i < users.length; i++) {
+      starsList.add(
+        Star(
+          currentImageIndex: 0,
+          profileImages: users[i]['profileImages'],
+          attraction_gender: users[i]['attraction_gender'],
+          birthday: users[i]['birthday'],
+          callcost: users[i]['callcost'],
+          email: users[i]['email'],
+          gender: users[i]['gender'],
+          messagingcost: users[i]['messagingcost'],
+          name: users[i]['name'],
+          ratingcount: users[i]['ratingcount'],
+          status: users[i]['status'],
+          uid: users[i]['uid'],
+          videocost: users[i]['videocost'],
+          rating: users[i]['rating'],
+        ),
+      );
+    }
+    return starsList;
   }
 
   Future<bool> checkUserExists(String userId) async {
