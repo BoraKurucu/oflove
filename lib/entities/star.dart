@@ -115,22 +115,14 @@ class _StarCardState extends State<StarCard> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                GestureDetector(
-                                  onTap: _previousImage,
-                                  child: Icon(
-                                    Icons.arrow_back_ios_rounded,
-                                    color: Colors.white,
-                                    size: 32.0,
-                                  ),
+                                _buildArrowButton(
+                                  Icons.arrow_back_ios_rounded,
+                                  _previousImage,
                                 ),
                                 SizedBox(width: 16.0),
-                                GestureDetector(
-                                  onTap: _nextImage,
-                                  child: Icon(
-                                    Icons.arrow_forward_ios_rounded,
-                                    color: Colors.white,
-                                    size: 32.0,
-                                  ),
+                                _buildArrowButton(
+                                  Icons.arrow_forward_ios_rounded,
+                                  _nextImage,
                                 ),
                               ],
                             ),
@@ -190,6 +182,23 @@ class _StarCardState extends State<StarCard> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildArrowButton(IconData icon, VoidCallback onPressed) {
+    return InkWell(
+      onTap: onPressed,
+      splashColor: Colors.blue.withOpacity(1.0), // Shading color on click
+      borderRadius: BorderRadius.circular(8.0), // Rounded corners
+
+      child: IconButton(
+        icon: Icon(
+          icon,
+          color: Colors.white,
+          size: 32.0,
+        ),
+        onPressed: onPressed,
       ),
     );
   }
