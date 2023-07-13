@@ -234,8 +234,12 @@ class _StarCardState extends State<StarCard> {
   }
 
   Widget _buildCostRow(IconData icon, String cost) {
-    return Container(
-      decoration: BoxDecoration(),
+    return InkWell(
+      onTap: () {
+        print(widget.star.uid); // Print the ID of the star
+      },
+      splashColor: Colors.blue.withOpacity(0.3), // Shading color on click
+      borderRadius: BorderRadius.circular(8.0), // Rounded corners
       child: Row(
         children: [
           Icon(
