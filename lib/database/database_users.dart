@@ -53,6 +53,8 @@ class DatabaseUser {
     final user = await getUserByUid(uid);
 
     if (user != null) {
+      //print("user  found with specified id");
+      //print(user);
       return Star(
         currentImageIndex: 0,
         profileImages: user['profileImages'],
@@ -69,8 +71,9 @@ class DatabaseUser {
         videocost: user['videocost'],
         rating: user['rating'],
       );
+    } else {
+      //print("user not found with specified id");
     }
-
     // User not found
     return null;
   }

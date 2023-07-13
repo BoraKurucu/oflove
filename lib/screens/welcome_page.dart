@@ -18,8 +18,9 @@ class WelcomePage extends StatelessWidget {
     DatabaseUser databaseUser = DatabaseUser();
     userStar = await databaseUser.getStarByUid(uid.toString());
     // Use the userStar object as needed
-    if (userStar != null) {
-      // Perform actions with userStar
+    if (userStar == null) {
+      print("following is using this account");
+      print("no user found");
     } else {
       print("following is using this account");
       print(userStar?.uid);
