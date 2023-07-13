@@ -34,6 +34,47 @@ class DatabaseUser {
     return users;
   }
 
+  Future<Map<String, dynamic>?> getUserByUid(String uid) async {
+    QuerySnapshot snapshot =
+        await FirebaseFirestore.instance.collection('users').get();
+
+    for (var doc in snapshot.docs) {
+      if (doc.data() != null &&
+          (doc.data() as Map<String, dynamic>)['uid'] == uid) {
+        return doc.data() as Map<String, dynamic>;
+      }
+    }
+
+    // User not found
+    return null;
+  }
+
+  Future<Star?> getStarByUid(String uid) async {
+    final user = await getUserByUid(uid);
+
+    if (user != null) {
+      return Star(
+        currentImageIndex: 0,
+        profileImages: user['profileImages'],
+        attraction_gender: user['attraction_gender'],
+        birthday: user['birthday'],
+        callcost: user['callcost'],
+        email: user['email'],
+        gender: user['gender'],
+        messagingcost: user['messagingcost'],
+        name: user['name'],
+        ratingcount: user['ratingcount'],
+        status: user['status'],
+        uid: user['uid'],
+        videocost: user['videocost'],
+        rating: user['rating'],
+      );
+    }
+
+    // User not found
+    return null;
+  }
+
   Future<List<Star>> getData() async {
     List<Star> starsList = [];
     List<Map<String, dynamic>> users = [];
