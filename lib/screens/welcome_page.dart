@@ -1,8 +1,27 @@
 import 'package:flutter/material.dart';
 import 'star_widget.dart';
+import 'package:oflove/database/database_users.dart';
+import 'package:oflove/entities/star.dart';
 
 class WelcomePage extends StatelessWidget {
   final TextEditingController _searchController = TextEditingController();
+  String? uid = "";
+  Star? userStar;
+
+  WelcomePage({
+    required this.uid,
+  }) {
+    initializeUserStar();
+  }
+
+  void initializeUserStar() async {
+    DatabaseUser databaseUser = DatabaseUser();
+    userStar = await databaseUser.getStarByUid(uid.toString());
+    // Use the userStar object as needed
+    if (userStar != null) {
+      // Perform actions with userStar
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

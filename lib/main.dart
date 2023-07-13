@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
         email: "test@mail.com",
       ),
       */
-      home: WelcomePage(),
+      home: WelcomePage(uid: "test_id3"),
     );
   }
 }
