@@ -44,7 +44,7 @@ class GoogleSignInService {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => WelcomePage(),
+                builder: (context) => WelcomePage(uid: userId),
               ),
             );
           }

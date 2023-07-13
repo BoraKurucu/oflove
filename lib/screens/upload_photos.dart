@@ -134,7 +134,7 @@ class _UploadPhotosScreenState extends State<UploadPhotosScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => WelcomePage(),
+        builder: (context) => WelcomePage(uid: widget.uid),
       ),
     );
   }
