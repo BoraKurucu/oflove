@@ -20,6 +20,10 @@ class WelcomePage extends StatelessWidget {
     // Use the userStar object as needed
     if (userStar != null) {
       // Perform actions with userStar
+    } else {
+      print("following is using this account");
+      print(userStar?.uid);
+      print(userStar?.name);
     }
   }
 
