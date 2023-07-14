@@ -8,9 +8,33 @@ import 'package:oflove/screens/chat_screen.dart';
 import 'package:oflove/database/database_users.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:io';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+void runPythonScript() async {
+  var url = Uri.parse('http://127.0.0.1:5000/run_script');
+
+  try {
+    print("AAA");
+    var response = await http.post(url);
+    print("BBB");
+    if (response.statusCode == 200) {
+      var responseBody = response.body;
+      var decodedResponse = utf8.decode(responseBody.runes.toList());
+      var jsonResponse = jsonDecode(decodedResponse);
+      var output = jsonResponse['output'];
+      print(output);
+    } else {
+      print('Failed to execute the script');
+    }
+  } catch (e) {
+    print('Error: $e');
+  }
+}
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  /*WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
       // Replace with actual values
       options: FirebaseOptions(
@@ -20,7 +44,11 @@ void main() async {
     projectId: "oflove-fa0cb",
     storageBucket: "oflove-fa0cb.appspot.com",
   ));
-  runApp(const MyApp());
+  runApp(const MyApp());*/
+
+  print("------------");
+  runPythonScript();
+
 }
 
 class MyApp extends StatelessWidget {
