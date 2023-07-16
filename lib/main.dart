@@ -34,7 +34,7 @@ void runPythonScript() async {
 }
 
 void main() async {
-  /*WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
       // Replace with actual values
       options: FirebaseOptions(
@@ -44,11 +44,10 @@ void main() async {
     projectId: "oflove-fa0cb",
     storageBucket: "oflove-fa0cb.appspot.com",
   ));
-  runApp(const MyApp());*/
+  runApp(const MyApp());
 
-  print("------------");
-  runPythonScript();
-
+  // print("------------");
+  //runPythonScript();
 }
 
 class MyApp extends StatelessWidget {
