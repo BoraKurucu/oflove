@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'star_widget.dart';
 import 'package:oflove/database/database_users.dart';
 import 'package:oflove/entities/star.dart';
+import 'profile_page.dart';
 
 class WelcomePage extends StatelessWidget {
   final TextEditingController _searchController = TextEditingController();
@@ -127,16 +128,4 @@ class WelcomePage extends StatelessWidget {
   }
 }
 
-class ProfilePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Profile'),
-      ),
-      body: Center(
-        child: Text('Profile Page'),
-      ),
-    );
-  }
-}
+

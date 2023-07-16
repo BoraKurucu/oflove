@@ -77,14 +77,13 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      /*
-      home: BirthdayScreen(
-        uid: "test_id6",
-        email: "test@mail.com",
-      ),*/
 
-      //home: WelcomePage(uid: "test_id3"),
-      home: ChatScreen(user1Id: "test_id2", user2Id: "test_id3"),
+      // home: BirthdayScreen(
+      //   uid: "test_id6",
+      //   email: "test@mail.com",
+      // ),
+
+      home: WelcomePage(uid: "test_id3"),
     );
   }
 }
