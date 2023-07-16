@@ -50,12 +50,12 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
 
-      home: BirthdayScreen(
-        uid: "test_id6",
-        email: "test@mail.com",
-      ),
+      // home: BirthdayScreen(
+      //   uid: "test_id6",
+      //   email: "test@mail.com",
+      // ),
 
-      //home: WelcomePage(uid: "test_id3"),
+      home: WelcomePage(uid: "test_id3"),
     );
   }
 }
