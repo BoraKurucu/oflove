@@ -284,7 +284,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           ),
                           loadingIndicator: const SizedBox.shrink(),
                           tabIndicatorAnimDuration: kTabScrollDuration,
-                          categoryIcons: CategoryIcons(),
+                          categoryIcons: const CategoryIcons(),
                           buttonMode: ButtonMode.MATERIAL,
                           checkPlatformCompatibility: true,
                         ),
@@ -296,17 +296,4 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
     );
   }
-}
-
-class CustomCategoryIcons {
-  static const Map<Category, IconData> icons = {
-    Category.RECENT: Icons.access_time,
-    Category.SMILEYS: Icons.tag_faces,
-    Category.ANIMALS: Icons.pets,
-    Category.FOODS: Icons.fastfood,
-    Category.TRAVEL: Icons.location_on,
-    Category.ACTIVITIES: Icons.sports_soccer,
-    Category.OBJECTS: Icons.lightbulb_outline,
-    Category.SYMBOLS: Icons.emoji_symbols,
-  };
 }
