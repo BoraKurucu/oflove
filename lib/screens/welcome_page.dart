@@ -7,7 +7,7 @@ import 'profile_page.dart';
 class WelcomePage extends StatelessWidget {
   final TextEditingController _searchController = TextEditingController();
   String? uid = "";
-  Star? userStar;
+  static Star? userStar;
 
   WelcomePage({
     required this.uid,
